@@ -1,0 +1,49 @@
+.__main
+  position: relative
+  display: flex
+  height: 100%
+
+  flex-flow: row wrap
+  justify-content: space-between
+  gap: 2rem
+
+  .__input
+    position: relative
+    height: 100%
+
+    padding: 4rem 0rem 4rem 4rem
+    flex: 0 0 33vw
+
+    .__input_field
+      width: 100%
+
+      .__input_textarea
+        height: calc(100vh - 10rem)
+        resize: none
+
+  .__output
+    flex: 1 0 33vw
+    max-height: 100vh
+
+    overflow: auto
+
+  .__tree
+    margin-top: 4rem
+    padding: 1rem
+    background: rgba(33, 189, 54, 0.103)
+
+  .__tree--invisible
+    display: none
+
+  .__tree ul,
+  .__tree li
+    margin-top: 0
+    margin-bottom: 0
+
+    list-style-type: none
+
+  .__tree .mat-nested-tree-node div[role=group]
+    padding-left: 40px
+
+  .__tree div[role=group] > .mat-tree-node
+    padding-left: 40px
