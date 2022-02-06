@@ -10,6 +10,7 @@
         matInput
         [formControl]="sexpInput"
         [errorStateMatcher]="fieldMatcher"
+        placeholder="(label vzd-vs (has self.vzd university))"
       ></textarea>
 
       <mat-error>{{ error$ | async }}</mat-error>
@@ -18,48 +19,68 @@
   </section>
 
   <section class="__output">
-    <ng-container *ngIf="dataSource$ | async as source">
-      <mat-tree
-        *ngIf="!(parsedWithError$ | async)"
-        [dataSource]="source"
-        [treeControl]="treeControl"
-        class="__tree"
+  
+    <div
+      *ngIf="!sexpInput.value"
+      class="__empty"
       >
+      Results will show here
+    </div>
 
-        <!-- Leaf nodes -->
-        <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
-          {{ node | nodeName }}
-        </mat-tree-node>
+    <ng-container *ngIf="sexpInput.value">
+        
+      <div
+        *ngIf="parsedWithError$ | async"
+        class="__error"
+      >
+        {{ error$ | async }}
+      </div>
 
-        <!-- Inner nodes -->
-        <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
-          <div class="__tree_node">
+      <ng-container *ngIf="dataSource$ | async as source">
+        <mat-tree
+          *ngIf="!(parsedWithError$ | async)"
+          [dataSource]="source"
+          [treeControl]="treeControl"
+          class="__tree"
+        >
 
-            <button
-              mat-icon-button
-              matTreeNodeToggle
-              [attr.aria-label]="'Toggle ' + node[0]"
-            >
-              <mat-icon>
-                {{ treeControl.isExpanded(node) ? "expand_more" : "chevron_right" }}
-              </mat-icon>
-            </button>
-
+          <!-- Leaf nodes -->
+          <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
             {{ node | nodeName }}
+          </mat-tree-node>
 
-          </div>
+          <!-- Inner nodes -->
+          <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
+            <div class="__tree_node">
 
-          <div
-            [class.__tree--invisible]="!treeControl.isExpanded(node)"
-            role="group"
-          >
-            <ng-container matTreeNodeOutlet></ng-container>
-          </div>
+              <button
+                mat-icon-button
+                matTreeNodeToggle
+                [attr.aria-label]="'Toggle ' + node[0]"
+              >
+                <mat-icon>
+                  {{ treeControl.isExpanded(node) ? "expand_more" : "chevron_right" }}
+                </mat-icon>
+              </button>
 
-        </mat-nested-tree-node>
+              {{ node | nodeName }}
 
-      </mat-tree>
+            </div>
+
+            <div
+              [class.__tree--invisible]="!treeControl.isExpanded(node)"
+              role="group"
+            >
+              <ng-container matTreeNodeOutlet></ng-container>
+            </div>
+
+          </mat-nested-tree-node>
+
+        </mat-tree>
+      </ng-container>
+
     </ng-container>
+
   </section>
 
 </main>
